@@ -9,23 +9,30 @@
     body {
       margin: 0;
       font-family: Arial, Helvetica, sans-serif;
-      background: #111;
-      color: #fff;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Main Question Screen */
+    .container {
+      position: fixed;
+      inset: 0;
+      background: #ffb6c1;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
       text-align: center;
     }
 
-    .container {
-      max-width: 600px;
-      padding: 20px;
+    .card {
+      position: relative;
+      z-index: 2;
     }
 
     h1 {
       font-size: clamp(1.8rem, 5vw, 2.5rem);
       margin-bottom: 30px;
+      color: #4a0033;
     }
 
     .buttons {
@@ -38,14 +45,8 @@
       padding: 15px 30px;
       font-size: 1.2rem;
       border: none;
-      border-radius: 8px;
+      border-radius: 10px;
       cursor: pointer;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    button:hover {
-      transform: scale(1.05);
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
     }
 
     .yes {
@@ -58,71 +59,84 @@
       color: #fff;
     }
 
-    /* Celebration screen */
+    /* Floating emojis */
+    .emoji {
+      position: absolute;
+      font-size: 2rem;
+      animation: float 6s infinite ease-in-out;
+      opacity: 0.8;
+    }
+
+    @keyframes float {
+      0%   { transform: translateY(0); }
+      50%  { transform: translateY(-40px); }
+      100% { transform: translateY(0); }
+    }
+
+    /* YES Screen */
     .celebration {
       display: none;
       position: fixed;
       inset: 0;
-      background: radial-gradient(circle at top, #7cff9b, #1e7f43);
+      background: #2ecc71;
       color: #0b3d1f;
+      display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
-      flex-direction: column;
       font-size: 2.5rem;
+      z-index: 10;
     }
 
-    .celebration span {
-      font-size: 4rem;
-      margin-top: 20px;
-    }
-
-    /* Ghost screen */
+    /* NO Screen */
     .ghost {
       display: none;
       position: fixed;
       inset: 0;
       background: #000;
+      display: flex;
       justify-content: center;
       align-items: center;
-      flex-direction: column;
+      z-index: 10;
     }
 
     .ghost img {
-      max-width: 80%;
-      max-height: 80%;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
       filter: grayscale(100%) contrast(120%);
-    }
-
-    .ghost p {
-      margin-top: 20px;
-      font-size: 1.5rem;
-      color: #aaa;
     }
   </style>
 </head>
 
 <body>
-  <div class="container" id="question">
-    <h1>Will you be my Valentine? 💖</h1>
 
-    <div class="buttons">
-      <button class="yes" onclick="sayYes()">Yes</button>
-      <button class="no" onclick="sayNo()">No</button>
+  <!-- Question -->
+  <div class="container" id="question">
+    <div class="card">
+      <h1>Will you be my Valentine? 💖</h1>
+      <div class="buttons">
+        <button class="yes" onclick="sayYes()">Yes</button>
+        <button class="no" onclick="sayNo()">No</button>
+      </div>
     </div>
+
+    <!-- Floating emojis -->
+    <div class="emoji" style="top:10%; left:15%;">💖</div>
+    <div class="emoji" style="top:20%; right:20%;">🌸</div>
+    <div class="emoji" style="bottom:20%; left:25%;">✨</div>
+    <div class="emoji" style="bottom:15%; right:30%;">💗</div>
   </div>
 
+  <!-- YES -->
   <div class="celebration" id="celebration">
     <div>YAYYY 💚</div>
-    <span>🎉🌸✨</span>
-    <p>Best Valentine ever.</p>
+    <div>🎉🌸✨</div>
   </div>
 
+  <!-- NO -->
   <div class="ghost" id="ghost">
-    <img
-      src="https://i.imgur.com/5ZQZ5Zy.jpeg"
-      alt="Junji Ito style ghost"
-    />
-    <p>…oh.</p>
+    <img src="ghost.png" alt="ghost" />
   </div>
 
   <script>
@@ -136,5 +150,6 @@
       document.getElementById("ghost").style.display = "flex";
     }
   </script>
+
 </body>
 </html>
